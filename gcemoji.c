@@ -40,7 +40,7 @@ const uint32_t gc_palette[4] =
 // decode 2-bit game.com bitmap to 32-bit RGBA
 void expand_gc(uint8_t *in, uint32_t *out, uint32_t w, uint32_t h)
 {
-	uint32_t  i, x, y;
+    uint32_t  i, x, y;
     uint32_t *buf, *start;
 
     start = buf = malloc(w * h * sizeof(uint32_t));

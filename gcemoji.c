@@ -40,12 +40,13 @@ const uint32_t gc_palette[4] =
 // decode 2-bit game.com bitmap to 32-bit RGBA
 void expand_gc(uint8_t *in, uint32_t *out, uint32_t w, uint32_t h)
 {
+	uint32_t  i, x, y;
     uint32_t *buf, *start;
 
     start = buf = malloc(w * h * sizeof(uint32_t));
 
     // decode 2-bit image
-    for (uint32_t i = 0; i < (w * h) / 4; i++)
+    for (i = 0; i < (w * h) / 4; i++)
     {
         *buf++ = gc_palette[(in[i] >> 6) & 3];
         *buf++ = gc_palette[(in[i] >> 4) & 3];
@@ -54,8 +55,8 @@ void expand_gc(uint8_t *in, uint32_t *out, uint32_t w, uint32_t h)
     }
 
     // rotate 270 degrees and flip horizontally
-    for (uint32_t y = 0; y < h; y++)
-    for (uint32_t x = 0; x < w; x++)
+    for (y = 0; y < h; y++)
+    for (x = 0; x < w; x++)
         out[y * w + (w - x - 1)] = start[y + ((w - x - 1) * h)];
 
     free(start);
@@ -95,11 +96,11 @@ void crop_upscale_icon(uint32_t *in, uint32_t *out, uint8_t upscale, uint8_t in_
 
 uint32_t decompress(uint8_t *in, uint8_t *out, uint32_t in_len)
 {
-    uint8_t *in_end, *outStart;
+    uint8_t *in_end, *out_start;
     uint16_t copy;
     
-    in_end   = in + in_len;
-    outStart = out;
+    in_end    = in + in_len;
+    out_start = out;
     
     while (in < in_end)
     {
@@ -125,7 +126,7 @@ uint32_t decompress(uint8_t *in, uint8_t *out, uint32_t in_len)
         out += copy;
     }
     
-    return out - outStart;
+    return out - out_start;
 }
 
 int main(int argc, char **argv)
